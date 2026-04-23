@@ -1,3 +1,4 @@
+
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -12,7 +13,7 @@ if [ "$#" -gt 2 ]; then
 fi
 
 # DEFAULT: Nutze reviewscombined.json, falls kein erstes Argument ($1) übergeben wurde
-INPUT_HDFS="${1:-hdfs:///dic_shared/amazon-reviews/full/reviewscombined.json}"
+INPUT_HDFS="${1:-hdfs:///dic_shared/amazon-reviews/full/reviews_devset.json}"
 STOPWORDS_FILE="${2:-../Assets/stopwords.txt}"
 
 HADOOP_STREAMING_JAR="/usr/lib/hadoop/tools/lib/hadoop-streaming-3.3.6.jar"
