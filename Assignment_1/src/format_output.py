@@ -3,10 +3,6 @@ import sys
 
 
 def main():
-    if len(sys.argv) != 3:
-        print("Usage: python format_output.py <job3_output> <output.txt>")
-        sys.exit(1)
-
     input_path = sys.argv[1]
     output_path = sys.argv[2]
 
@@ -23,7 +19,6 @@ def main():
             category = json.loads(key_json)
             top75 = json.loads(value_json)
 
-            # top75 format: [[chi2, word], [chi2, word], ...]
             category_to_terms[category] = top75
 
             for chi2, word in top75:

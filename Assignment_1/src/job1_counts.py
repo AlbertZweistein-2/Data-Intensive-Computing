@@ -2,6 +2,7 @@ from mrjob.job import MRJob
 from mrjob.step import MRStep
 import json
 import re
+from collections import defaultdict
 
 
 class PearsonCounts(MRJob):
@@ -14,24 +15,37 @@ class PearsonCounts(MRJob):
     def mapper_init(self):
         with open(self.options.stopwords, 'r') as f:
             self.stopwords = set(line.strip() for line in f if line.strip())
-
+        #Precompute Regex
+        self.word_split_re = re.compile(r'[^a-zA-Z<>^|]+')
+        #Initialize local counter dictionary
+        self.local_counts = defaultdict(int)
+    
     def mapper(self, _, entry):
         data = json.loads(entry)
         category = data['category']
         review_text = data['reviewText']
 
-        words = map(str.lower, re.split(r'[^a-zA-Z<>^|]+', review_text))
+        words = map(str.lower, self.word_split_re.split(review_text))
+
         unique_words = {
             w for w in words
             if len(w) > 1 and w not in self.stopwords
         }
-
-        yield ('_n_',), 1
-        yield ('_cat_', category), 1
+        self.local_counts[('_n_',)] += 1
+        self.local_counts[('_cat_', category)] += 1
 
         for word in unique_words:
-            yield ('_w_', word), 1
-            yield ('_A_', category, word), 1
+            self.local_counts[('_w_', word)] += 1
+            self.local_counts[('_A_', category, word)] += 1
+
+        if len(self.local_counts) > 100000:
+            for key, count in self.local_counts.items():
+                yield key, count
+            self.local_counts.clear()
+
+    def mapper_final(self):
+        for key, count in self.local_counts.items():
+            yield key, count
 
     def reducer_sum(self, key, values):
         yield key, sum(values)
@@ -41,11 +55,11 @@ class PearsonCounts(MRJob):
             MRStep(
                 mapper_init=self.mapper_init,
                 mapper=self.mapper,
+                mapper_final=self.mapper_final,
                 combiner=self.reducer_sum,
                 reducer=self.reducer_sum
             )
         ]
-
 
 if __name__ == '__main__':
     PearsonCounts.run()

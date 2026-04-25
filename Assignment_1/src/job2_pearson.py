@@ -61,21 +61,15 @@ class PearsonChi2(MRJob):
             C = cat_total - A
             D = n_total - w_total - cat_total + A
 
+            enum = n_total * ((A * D - B * C) ** 2)
             denom = (A + B) * (A + C) * (B + D) * (C + D)
             if denom == 0:
                 continue
 
-            chi2 = (n_total * ((A * D - B * C) ** 2)) / denom
+            chi2 = enum / denom
 
             yield (category, word), {
                 'chi2': chi2,
-                # 'A': A,
-                # 'B': B,
-                # 'C': C,
-                # 'D': D,
-                # 'n': n_total,
-                # 'w': w_total,
-                # 'cat': cat_total
             }
 
     def steps(self):
@@ -86,7 +80,6 @@ class PearsonChi2(MRJob):
                 reducer=self.reducer
             )
         ]
-
 
 if __name__ == '__main__':
     PearsonChi2.run()

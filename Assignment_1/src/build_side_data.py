@@ -1,12 +1,7 @@
 import json
 import sys
 
-
 def main():
-    if len(sys.argv) != 3:
-        print("Usage: python build_side_data.py <job1_output> <side_data.json>")
-        sys.exit(1)
-
     input_path = sys.argv[1]
     output_path = sys.argv[2]
 
@@ -41,7 +36,6 @@ def main():
 
     with open(output_path, 'w') as f:
         json.dump(side_data, f)
-
 
 if __name__ == '__main__':
     main()
