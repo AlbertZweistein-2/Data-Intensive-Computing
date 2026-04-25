@@ -63,6 +63,7 @@ def main():
     C = {}
     D = {}
     for category in A:
+        Chi_squared[category] = []
         B[category] = {}
         C[category] = {}
         D[category] = {}
@@ -75,18 +76,19 @@ def main():
             denom = (A[category][word] + B[category][word]) * (A[category][word] + C[category][word]) * (B[category][word] + D[category][word]) * (C[category][word] + D[category][word])
             if denom == 0:
                 continue
-            Chi_squared[category][word] = enum / denom
+            Chi_squared[category].append({"word": word, "chi2": enum / denom})
     
     # Sort by chi-squared
     for category in Chi_squared:
-        Chi_squared[category] = sorted(Chi_squared[category].items(), key=lambda x: x[1], reverse=True)
+        Chi_squared[category] = sorted(Chi_squared[category], key=lambda x: x["chi2"], reverse=True)
         Chi_squared[category] = Chi_squared[category][:75]
     
     # Compare with data
     for category in data:
         for i in range(75):
-            if data[category][i]["word"] != Chi_squared[category][i]["word"]:
-                print("Mismatch at index", i)
+            delta = 1e-9    
+            if abs(data[category][i]["chi2"] - Chi_squared[category][i]["chi2"]) > delta:
+                print("Mismatch in category", category, "at index", i)
                 print("Data:", data[category][i])
                 print("Chi_squared:", Chi_squared[category][i])
                 return
