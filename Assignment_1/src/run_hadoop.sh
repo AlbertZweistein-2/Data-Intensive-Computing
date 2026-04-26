@@ -2,7 +2,7 @@
 set -euo pipefail
 
 START_SECONDS=$SECONDS
-DATE_TIME = $(date +"%Y-%m-%d %H:%M:%S")
+DATE_TIME=$(date +"%Y-%m-%d %H:%M:%S")
 
 if [ "$#" -gt 2 ]; then
     echo "Usage: $0 [input_hdfs_path] [stopwords.txt]"
