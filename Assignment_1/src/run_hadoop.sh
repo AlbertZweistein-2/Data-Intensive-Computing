@@ -2,6 +2,7 @@
 set -euo pipefail
 
 START_SECONDS=$SECONDS
+DATE_TIME = $(date +"%Y-%m-%d %H:%M:%S")
 
 if [ "$#" -gt 2 ]; then
     echo "Usage: $0 [input_hdfs_path] [stopwords.txt]"
@@ -33,7 +34,7 @@ echo "Streaming JAR:     $HADOOP_STREAMING_JAR"
 echo "HDFS base dir:     $HDFS_BASE"
 echo "Final output:      $FINAL_OUT"
 
-echo "=== START OF RUN ${START_SECONDS} with file ${INPUT_HDFS} ===" >> "$LOG_FILE"
+echo "=== START OF RUN ${DATE_TIME} with file ${INPUT_HDFS} ===" >> "$LOG_FILE"
 
 echo
 echo "=== Step 0: remove old HDFS outputs ==="
