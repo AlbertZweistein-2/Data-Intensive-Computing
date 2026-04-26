@@ -25,6 +25,7 @@ LOCAL_JOB1_OUT="counts.jsonl"
 LOCAL_SIDE_DATA="side_data.json"
 LOCAL_JOB3_OUT="top75_per_category.jsonl"
 FINAL_OUT="output.txt"
+LOG_FILE="log.txt"
 
 echo "Input HDFS file:   $INPUT_HDFS"
 echo "Stopwords file:    $STOPWORDS_FILE"
@@ -32,11 +33,15 @@ echo "Streaming JAR:     $HADOOP_STREAMING_JAR"
 echo "HDFS base dir:     $HDFS_BASE"
 echo "Final output:      $FINAL_OUT"
 
+echo "=== START OF RUN ${START_SECONDS} ===" >> "$LOG_FILE"
+
 echo
 echo "=== Step 0: remove old HDFS outputs ==="
 hadoop fs -rm -r -f "$JOB1_HDFS_OUT" || true
 hadoop fs -rm -r -f "$JOB2_HDFS_OUT" || true
 hadoop fs -rm -r -f "$JOB3_HDFS_OUT" || true
+
+echo "Step 0 finished after: $(( SECONDS - START_SECONDS )) seconds" >> "$LOG_FILE"
 
 echo
 echo "=== Step 1: counting n, cat, w, A on Hadoop ==="
@@ -48,14 +53,20 @@ python3 job1_counts.py \
     --stopwords "$STOPWORDS_FILE" \
     --output-dir "$JOB1_HDFS_OUT"
 
+echo "Step 1 finished after: $(( SECONDS - START_SECONDS )) seconds" >> "$LOG_FILE"
+
 echo
 echo "=== Step 2: fetch Job1 output locally ==="
 rm -f "$LOCAL_JOB1_OUT"
 hadoop fs -getmerge "$JOB1_HDFS_OUT" "$LOCAL_JOB1_OUT"
 
+echo "Step 2 finished after: $(( SECONDS - START_SECONDS )) seconds" >> "$LOG_FILE"
+
 echo
 echo "=== Step 3: build side data locally (n + cat counts) ==="
 python3 build_side_data.py "$LOCAL_JOB1_OUT" "$LOCAL_SIDE_DATA"
+
+echo "Step 3 finished after: $(( SECONDS - START_SECONDS )) seconds" >> "$LOG_FILE"
 
 echo
 echo "=== Step 4: compute Pearson chi^2 on Hadoop ==="
@@ -66,6 +77,8 @@ python3 job2_pearson.py \
     --side-data "$LOCAL_SIDE_DATA" \
     --output-dir "$JOB2_HDFS_OUT"
 
+echo "Step 4 finished after: $(( SECONDS - START_SECONDS )) seconds" >> "$LOG_FILE"
+
 echo
 echo "=== Step 5: top 75 per category on Hadoop ==="
 python3 job3_top75_per_category.py \
@@ -74,18 +87,27 @@ python3 job3_top75_per_category.py \
     "$JOB2_HDFS_OUT" \
     --output-dir "$JOB3_HDFS_OUT"
 
+echo "Step 5 finished after: $(( SECONDS - START_SECONDS )) seconds" >> "$LOG_FILE"
+
 echo
 echo "=== Step 6: fetch Job3 output locally ==="
 rm -f "$LOCAL_JOB3_OUT"
 hadoop fs -getmerge "$JOB3_HDFS_OUT" "$LOCAL_JOB3_OUT"
 
+echo "Step 6 finished after: $(( SECONDS - START_SECONDS )) seconds" >> "$LOG_FILE"
+
 echo
 echo "=== Step 7: format final output.txt locally ==="
 python3 format_output.py "$LOCAL_JOB3_OUT" "$FINAL_OUT"
 
+echo "Step 7 finished after: $(( SECONDS - START_SECONDS )) seconds" >> "$LOG_FILE"
+
 DURATION=$(( SECONDS - START_SECONDS ))
 MINS=$(( DURATION / 60 ))
 SECS=$(( DURATION % 60 ))
+
+echo "Total runtime: $(( SECONDS - START_SECONDS )) seconds" >> "$LOG_FILE"
+echo "=== END OF RUN ${END_SECONDS} ===" >> "$LOG_FILE"
 
 echo
 echo "Done."
