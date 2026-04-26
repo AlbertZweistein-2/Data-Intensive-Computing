@@ -29,9 +29,19 @@ def main():
             terms = category_to_terms[category]
 
             parts = [category]
+            chi2_prev = 0
+            word_prev = ""
+            delta = 1e-9
             for chi2, word in terms:
-                parts.append(f"{word}:{chi2}")
-
+                if abs(chi2_prev - chi2) < delta and word_prev > word:
+                    prev_entry = parts.pop()
+                    parts.append(f"{word}:{chi2}")
+                    parts.append(prev_entry)
+                else:
+                    parts.append(f"{word}:{chi2}")
+                chi2_prev = chi2
+                word_prev = word
+        
             out.write(" ".join(parts) + "\n")
 
         out.write(" ".join(sorted(merged_terms)) + "\n")
