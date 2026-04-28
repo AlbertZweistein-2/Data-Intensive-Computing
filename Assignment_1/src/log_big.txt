@@ -1,0 +1,9 @@
+Step 1 finished after: 250 seconds
+Step 2 finished after: 255 seconds
+Step 3 finished after: 322 seconds
+Step 4 finished after: 658 seconds
+Step 5 finished after: 798 seconds
+Step 6 finished after: 801 seconds
+Step 7 finished after: 801 seconds
+Total runtime: 801 seconds
+
