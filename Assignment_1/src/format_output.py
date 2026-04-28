@@ -3,12 +3,14 @@ import sys
 
 
 def main():
+    # Read the input and output file paths from the command line.
     input_path = sys.argv[1]
     output_path = sys.argv[2]
 
     category_to_terms = {}
     merged_terms = set()
 
+    # Load the per-category top-75 lists and collect all unique words.
     with open(input_path, 'r') as f:
         for line in f:
             line = line.rstrip('\n')
@@ -24,6 +26,7 @@ def main():
             for chi2, word in top75:
                 merged_terms.add(word)
 
+    # Write each category in sorted order and append the merged word list at the end.
     with open(output_path, 'w') as out:
         for category in sorted(category_to_terms.keys()):
             terms = category_to_terms[category]

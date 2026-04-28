@@ -20,7 +20,9 @@ Assignment_1/
 │   ├── format_output.py            # Formats the output
 │   ├── run_hadoop.sh               # Main execution script
 │   ├── run_check_devset.sh         # Development dataset test script
-├── Assignment_1_Instructions.pdf   # Detailed task description
+|   ├── log.txt                     # log-file that holds the computation times
+|   └── output.txt                  # Final Output file
+├── Assignment_1_Instructions.pdf    # Detailed task description
 └── README.md                        # This file
 ```
 
@@ -104,10 +106,19 @@ This runs the pipeline with the smaller `reviews_devset.json` file for testing a
 ## Input and Output Formats
 
 ### Input Format
+Each review is a JSON object with the following fields (only `category` and `reviewText` are used by the MapReduce jobs):
 ```json
 {
-  "category": "Electronics",
-  "reviewText": "Great product! Works as expected..."
+  "reviewerID": "A2VNYWOPJ13AFP",
+  "asin": "0981850006",
+  "reviewerName": "Amazon Customer",
+  "helpful": [6, 7],
+  "reviewText": "This was a gift for my other husband. He's making us things from it all the time and we love the food.",
+  "overall": 5.0,
+  "summary": "Delish",
+  "unixReviewTime": 1259798400,
+  "reviewTime": "12 3, 2009",
+  "category": "Patio_Lawn_and_Garden"
 }
 ```
 
@@ -125,7 +136,7 @@ Baby diaper:2429.74 crib:2411.47 newborn:1292.01 seat:1260.45 pacifiers:1206.43
 
 ## Script Functions
 
-- **`build_side_data.py`**: Converts Job 1 output to JSON format for use as side data in Job 2
+- **`build_side_data.py`**: Extracts metadata from Job 1 output and formats it as JSON for Job 2. Job 1 emits various count types (global review count `_n_`, per-category counts `_cat_`, word frequencies `_w_`, and word-category pairs `_A_`). This script filters the raw output to keep only the global total and per-category counts, then structures them into a JSON object with fields `n` (total reviews) and `cat_counts` (dictionary mapping category names to review counts). This file is loaded as distributed cache by Job 2 during the reducer phase to compute chi-squared statistics efficiently.
 - **`format_output.py`**: Formats the final output from Job 3 into a readable format
 - **`check_output_devset.py`**: Validates output against expected results on the development dataset
 
