@@ -20,7 +20,7 @@ Assignment_1/
 │   ├── format_output.py            # Formats the output
 │   ├── run_hadoop.sh               # Main execution script
 │   ├── run_check_devset.sh         # Development dataset test script
-│   └── Assignment_1_Instructions.pdf  # Detailed task description
+├── Assignment_1_Instructions.pdf   # Detailed task description
 └── README.md                        # This file
 ```
 
