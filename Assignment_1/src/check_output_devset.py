@@ -1,7 +1,7 @@
 import json
 import re
 def load_stopwords():
-    with open("../Assets/stopwords.txt", "r") as f:
+    with open("stopwords.txt", "r") as f:
         stopwords = set(line.strip() for line in f if line.strip())
     return stopwords
 
@@ -31,7 +31,7 @@ def main():
                 word, chi2 = entires[i].split(":")
                 data[category].append({"word": word, "chi2": float(chi2)})
         # Run through the reviews locally and check if the top 75 words are the same
-    with open("../Assets/reviews_devset.json", "r") as f:
+    with open("../reviews_devset.json", "r") as f:
         lines = f.readlines()
         devset = [json.loads(review) for review in lines]
     

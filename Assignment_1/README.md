@@ -8,10 +8,7 @@ This assignment implements a distributed text analysis of Amazon review data usi
 
 ```
 Assignment_1/
-├── Assets/                          # Input files
-│   ├── reviews_devset.json         # Development dataset with reviews
-│   └── stopwords.txt               # List of stopwords for filtering
-├── src/                             # Python source code
+├── src/                            # Python source code
 │   ├── job1_counts.py              # MapReduce Job 1: Word and category counting
 │   ├── job2_pearson.py             # MapReduce Job 2: Chi-squared calculation
 │   ├── job3_top75_per_category.py  # MapReduce Job 3: Top 75 words per category
@@ -20,10 +17,12 @@ Assignment_1/
 │   ├── format_output.py            # Formats the output
 │   ├── run_hadoop.sh               # Main execution script
 │   ├── run_check_devset.sh         # Development dataset test script
+│   ├── reviews_devset.json         # Development dataset with reviews
 |   ├── log.txt                     # log-file that holds the computation times
-|   └── output.txt                  # Final Output file
-├── Assignment_1_Instructions.pdf    # Detailed task description
-└── README.md                        # This file
+|   ├── output.txt                  # Final Output file
+│   └── stopwords.txt               # List of stopwords for filtering
+├── Assignment_1_Instructions.pdf   # Detailed task description
+└── README.md                       # This file
 ```
 
 ## Jobs in Detail
@@ -87,11 +86,11 @@ bash run_hadoop.sh [input_hdfs_path] [stopwords_file]
 
 **Parameters:**
 - `input_hdfs_path` (optional): HDFS path to input dataset (default: `hdfs:///dic_shared/amazon-reviews/full/reviewscombined.json`)
-- `stopwords_file` (optional): Path to stopwords file (default: `../Assets/stopwords.txt`)
+- `stopwords_file` (optional): Path to stopwords file (default: `stopwords.txt`)
 
 **Example:**
 ```bash
-bash run_hadoop.sh hdfs:///dic_shared/amazon-reviews/full/reviewscombined.json ../Assets/stopwords.txt
+bash run_hadoop.sh hdfs:///dic_shared/amazon-reviews/full/reviewscombined.json stopwords.txt
 ```
 
 ### Test with Development Dataset

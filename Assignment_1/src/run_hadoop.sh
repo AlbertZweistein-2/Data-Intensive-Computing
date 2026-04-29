@@ -6,12 +6,12 @@ DATE_TIME=$(date +"%Y-%m-%d %H:%M:%S")
 
 if [ "$#" -gt 2 ]; then
     echo "Usage: $0 [input_hdfs_path] [stopwords.txt]"
-    echo "Example: $0 hdfs:///dic_shared/amazon-reviews/full/reviewscombined.json ../Assets/stopwords.txt"
+    echo "Example: $0 hdfs:///dic_shared/amazon-reviews/full/reviewscombined.json stopwords.txt"
     exit 1
 fi
 
 INPUT_HDFS="${1:-hdfs:///dic_shared/amazon-reviews/full/reviewscombined.json}"
-STOPWORDS_FILE="${2:-../Assets/stopwords.txt}"
+STOPWORDS_FILE="${2:-stopwords.txt}"
 
 HADOOP_STREAMING_JAR="/usr/lib/hadoop/tools/lib/hadoop-streaming-3.3.6.jar"
 

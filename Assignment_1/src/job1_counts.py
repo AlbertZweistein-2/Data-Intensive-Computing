@@ -9,7 +9,7 @@ from collections import defaultdict
 #The output is a set of <key, value> pairs where the key is a tuple that starts with a tag (e.g., '_n_', '_cat_', '_w_', '_A_') followed by relevant identifiers (e.g., category name, word) and the value is a count. 
 #The mapper uses local aggregation to reduce the number of emitted pairs, and the reducer sums these counts across all mappers to produce the final totals needed for chi-squared calculations in later steps.
 class PearsonCounts(MRJob):
-    STOPWORDS_PATH = '../Assets/stopwords.txt'
+    STOPWORDS_PATH = 'stopwords.txt'
 
     # configure_args() defines command-line arguments for the MRJob runner.
     # Here it adds a stopwords file path that is available to the mapper.
