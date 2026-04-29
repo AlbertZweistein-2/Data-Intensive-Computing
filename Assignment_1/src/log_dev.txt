@@ -1,0 +1,50 @@
+Step 1 finished after: 112 seconds
+Step 2 finished after: 115 seconds
+Step 3 finished after: 116 seconds
+Step 4 finished after: 175 seconds
+Step 5 finished after: 226 seconds
+Step 6 finished after: 229 seconds
+Step 7 finished after: 229 seconds
+Total runtime: 229 seconds
+=== START OF RUN 2026-04-29 09:38:35 with file hdfs:///dic_shared/amazon-reviews/full/reviews_devset.json ===
+Step 0 finished after: 8 seconds
+Step 1 finished after: 83 seconds
+Step 2 finished after: 86 seconds
+Step 3 finished after: 88 seconds
+Step 4 finished after: 147 seconds
+Step 5 finished after: 202 seconds
+Step 6 finished after: 204 seconds
+Step 7 finished after: 204 seconds
+Total runtime: 204 seconds
+=== START OF RUN 2026-04-29 10:12:56 with file hdfs:///dic_shared/amazon-reviews/full/reviews_devset.json ===
+Step 0 finished after: 7 seconds
+Step 1 finished after: 88 seconds
+Step 2 finished after: 90 seconds
+Step 3 finished after: 92 seconds
+Step 4 finished after: 150 seconds
+Step 5 finished after: 203 seconds
+Step 6 finished after: 205 seconds
+Step 7 finished after: 205 seconds
+Total runtime: 205 seconds
+=== START OF RUN 2026-04-29 10:21:02 with file hdfs:///dic_shared/amazon-reviews/full/reviews_devset.json ===
+Step 0 finished after: 7 seconds
+Step 1 finished after: 86 seconds
+Step 2 finished after: 89 seconds
+Step 3 finished after: 90 seconds
+Step 4 finished after: 153 seconds
+Step 5 finished after: 206 seconds
+Step 6 finished after: 209 seconds
+Step 7 finished after: 209 seconds
+Total runtime: 209 seconds
+=== END OF RUN 2026-04-29 10:24:31 ===
+=== START OF RUN 2026-04-29 10:35:02 with file hdfs:///dic_shared/amazon-reviews/full/reviews_devset.json ===
+Step 0 finished after: 7 seconds
+Step 1 finished after: 85 seconds
+Step 2 finished after: 88 seconds
+Step 3 finished after: 89 seconds
+Step 4 finished after: 148 seconds
+Step 5 finished after: 200 seconds
+Step 6 finished after: 203 seconds
+Step 7 finished after: 203 seconds
+Total runtime: 203 seconds
+=== END OF RUN 2026-04-29 10:38:25 ===

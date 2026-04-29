@@ -1,0 +1,11 @@
+=== START OF RUN 2026-04-29 10:39:22 with file hdfs:///dic_shared/amazon-reviews/full/reviewscombined.json ===
+Step 0 finished after: 7 seconds
+Step 1 finished after: 246 seconds
+Step 2 finished after: 251 seconds
+Step 3 finished after: 317 seconds
+Step 4 finished after: 595 seconds
+Step 5 finished after: 727 seconds
+Step 6 finished after: 730 seconds
+Step 7 finished after: 730 seconds
+Total runtime: 730 seconds
+=== END OF RUN 2026-04-29 10:51:32 ===
