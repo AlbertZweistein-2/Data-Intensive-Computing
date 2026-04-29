@@ -104,6 +104,7 @@ python3 format_output.py "$LOCAL_JOB3_OUT" "$FINAL_OUT"
 echo "Step 7 finished after: $(( SECONDS - START_SECONDS )) seconds" >> "$LOG_FILE"
 
 DURATION=$(( SECONDS - START_SECONDS ))
+END_SECONDS=$(date +"%Y-%m-%d %H:%M:%S")
 MINS=$(( DURATION / 60 ))
 SECS=$(( DURATION % 60 ))
 
