@@ -18,8 +18,8 @@ Assignment_1/
 │   ├── run_hadoop.sh               # Main execution script
 │   ├── run_check_devset.sh         # Development dataset test script
 │   ├── reviews_devset.json         # Development dataset with reviews
-|   ├── log.txt                     # log-file that holds the computation times
-|   ├── output.txt                  # Final Output file
+|   ├── log.txt                     # log-file that holds the computation times for the complete dataset
+|   ├── output.txt                  # Final Output file for the development dataset
 │   └── stopwords.txt               # List of stopwords for filtering
 ├── Assignment_1_Instructions.pdf   # Detailed task description
 └── README.md                       # This file

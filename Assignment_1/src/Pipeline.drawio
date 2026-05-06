@@ -1,0 +1,190 @@
+<mxfile host="Electron">
+  <diagram name="Seite-1" id="NhpXlq4wKa60eNFQe9JD">
+    <mxGraphModel dx="2215" dy="1459" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="C058nJHWnjCuK5N1gANL-62" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="300" width="220" x="730" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-60" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="340" width="690" x="20" y="830" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-54" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="400" width="670" x="210" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-18" edge="1" parent="1" source="C058nJHWnjCuK5N1gANL-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="C058nJHWnjCuK5N1gANL-14" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;i style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;MapReduce counting stage&lt;/i&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;i&gt;&lt;br&gt;&lt;/i&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;b&gt;Mapper:&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;ul&gt;&lt;li&gt;For each review, count locally:&lt;/li&gt;&lt;ul&gt;&lt;li&gt;total reviews&lt;/li&gt;&lt;li&gt;reviews per category&lt;/li&gt;&lt;li&gt;reviews containing each word&lt;/li&gt;&lt;li&gt;reviews per category containing each word&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;Emit (key, count) for each aggregated key at the end (not always 1)&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;b&gt;Reducer:&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;ul&gt;&lt;li&gt;Sum all counts for each key across all mappers&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="260.83" width="220" x="230" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;h2&gt;Stage 1: Counting&lt;/h2&gt;" vertex="1">
+          <mxGeometry height="40" width="650" x="220" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-13" edge="1" parent="1" source="C058nJHWnjCuK5N1gANL-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="C058nJHWnjCuK5N1gANL-6" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="200" />
+              <mxPoint x="200" y="271" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-37" edge="1" parent="1" source="C058nJHWnjCuK5N1gANL-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="C058nJHWnjCuK5N1gANL-36" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-39" connectable="0" parent="C058nJHWnjCuK5N1gANL-37" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" value="hadoop fs -getmerge" vertex="1">
+          <mxGeometry relative="1" x="0.4138" y="1" as="geometry">
+            <mxPoint x="1" y="5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-14" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;align=left;fontSize=10;" value="&lt;div&gt;&lt;br&gt;&lt;div&gt;&lt;b&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;hdfs://*/job1_counts/&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;\(\langle (\text{\_n\_}),\ N \rangle\)&lt;br&gt;\(\langle (\text{\_cat\_},\ c),\ n_c \rangle\)&lt;br&gt;\(\langle (\text{\_w\_},\ w),\ n_w \rangle\)&lt;br&gt;\(\langle (\text{\_A\_},\ c,\ w),\ A_{cw} \rangle\)&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;i&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;c... category&lt;/font&gt;&lt;/i&gt;&lt;/div&gt;&lt;div&gt;&lt;i&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;w... word&lt;/font&gt;&lt;/i&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="160" width="160" x="480" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;h3&gt;Job 1 Output&lt;/h3&gt;" vertex="1">
+          <mxGeometry height="40" width="160" x="480" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-16" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;h3&gt;Job 1: Counting&lt;/h3&gt;" vertex="1">
+          <mxGeometry height="40" width="220" x="230" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-21" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;h3&gt;build_side_data.py&lt;/h3&gt;" vertex="1">
+          <mxGeometry height="40" width="180" x="670" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-41" edge="1" parent="1" source="C058nJHWnjCuK5N1gANL-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="C058nJHWnjCuK5N1gANL-26" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-22" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=11;" value="&lt;span&gt;Extract global statistics from Job 1 output:&lt;/span&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;total reviews \(N\)&lt;/li&gt;&lt;li&gt;per-category counts \( n_c \)&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;Creates side-data JSON for Job 2&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="180" x="670" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-57" edge="1" parent="1" source="C058nJHWnjCuK5N1gANL-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="C058nJHWnjCuK5N1gANL-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="420" />
+              <mxPoint x="260" y="420" />
+              <mxPoint x="260" y="670" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-26" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;align=left;fontSize=10;" value="&lt;b&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;side_data.json&lt;/font&gt;&lt;/b&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;\(\{ \text{&quot;n&quot;}: N,\ \text{&quot;cat\_counts&quot;}: \{ c: n_c \} \}\)&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="190" x="665" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-30" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;h2&gt;Stage 3: Ranking and formatting&lt;/h2&gt;" vertex="1">
+          <mxGeometry height="40" width="670" x="30" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-31" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=11;" value="&lt;div&gt;&lt;i&gt;MapReduce ranking stage&lt;/i&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Mapper:&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;\(\langle c,\ (\chi^2,\ w) \rangle\)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Reducer:&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;keep top 75 words per cate&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;gory&lt;/span&gt;&lt;/li&gt;&lt;li&gt;(using heapq.nlargest) and sort descending&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="160" width="200" x="40" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-32" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;h3&gt;Job 3: Top75PerCategory&lt;/h3&gt;" vertex="1">
+          <mxGeometry height="40" width="200" x="40" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-33" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;h3&gt;Job 3 Output&lt;/h3&gt;" vertex="1">
+          <mxGeometry height="40" width="190" x="270" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-38" edge="1" parent="1" source="C058nJHWnjCuK5N1gANL-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="C058nJHWnjCuK5N1gANL-22" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="650" y="160" />
+              <mxPoint x="650" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-36" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;b style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;counts.jsonl&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Local merged Job 1 ouptut&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="160" x="480" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-45" edge="1" parent="1" source="C058nJHWnjCuK5N1gANL-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="C058nJHWnjCuK5N1gANL-44" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-46" connectable="0" parent="C058nJHWnjCuK5N1gANL-45" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="hadoop fs -getmerge" vertex="1">
+          <mxGeometry relative="1" x="-0.0394" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-43" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fontSize=10;" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;&lt;b style=&quot;text-align: left;&quot;&gt;hdfs://*/job3_top75&lt;/b&gt;&lt;b style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); text-align: left;&quot;&gt;/&lt;/b&gt;&lt;/font&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;\(\langle c,\ [(\chi^2,\ w)_1,\ \ldots,\ (\chi^2,\ w)_{75}] \rangle\)&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="71" width="190" x="270" y="959" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-58" edge="1" parent="1" source="C058nJHWnjCuK5N1gANL-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="C058nJHWnjCuK5N1gANL-48">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-44" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" value="&lt;b&gt;top75_per_category.jsonl&lt;/b&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;local merged Job 3 output&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="160" x="285" y="1070" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-47" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;h3&gt;format_output.py&lt;/h3&gt;" vertex="1">
+          <mxGeometry height="40" width="200" x="490" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-63" edge="1" parent="1" source="C058nJHWnjCuK5N1gANL-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="C058nJHWnjCuK5N1gANL-51" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-48" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=11;" value="&lt;div&gt;Formats final result:&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;one output line per&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;category&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;each line contains the&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;top-75 terms with&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;chi-squared values&lt;/span&gt;&lt;/li&gt;&lt;li&gt;final line contains&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;merged vocabulary of&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;all selected words&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="200" x="490" y="964" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-50" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;h2&gt;Final Output&lt;/h2&gt;" vertex="1">
+          <mxGeometry height="40" width="160" x="760" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-51" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;align=left;" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;b&gt;output.txt&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;for each category c:&lt;/div&gt;&lt;div style=&quot;&quot;&gt;\(\text{c}\quad w_1:\chi^2_1,\ \ldots,\ w_{75}:\chi^2_{75}\)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;followed by sorted alphabetically words:&lt;/div&gt;&lt;div&gt;\(\text{word}_1,\ \text{word}_2,\ \ldots,\ \text{word}_m\)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="170" width="200" x="740" y="939" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="325.41" width="180" y="37.30000000000001" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-1" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" value="hdsf://*/&lt;div&gt;reviewscombined.json&lt;/div&gt;" vertex="1">
+          <mxGeometry height="95.83333333333334" width="130" x="20" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-2" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" value="stopwords.txt" vertex="1">
+          <mxGeometry height="86.25" width="80" x="45" y="250.0033333333334" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;h2&gt;Input&lt;/h2&gt;" vertex="1">
+          <mxGeometry height="40" width="140" x="20" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-55" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="350" width="430" x="320" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-23" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;h2&gt;Stage 2: Chi-Squared computation&lt;/h2&gt;" vertex="1">
+          <mxGeometry height="40" width="410" x="330" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-24" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;h3&gt;Job 2: PearsonChi2&lt;/h3&gt;" vertex="1">
+          <mxGeometry height="40" width="200" x="340" y="508.5" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-25" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=10;" value="&lt;i&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;MapReduce Chi-squared stage&lt;/font&gt;&lt;/i&gt;&lt;div&gt;&lt;i&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/i&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Mapper:&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;i&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;forwards by word:&lt;/font&gt;&lt;/i&gt;&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;\(\langle (w,\ (\text{\_w\_},\ n_w)) \rangle\)&lt;/font&gt;&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;\(\langle (w,\ (\text{\_A\_},\ c,\ A_{cw})) \rangle\)&lt;/font&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Reducer:&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;i&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;computes for each (c, w):&lt;/font&gt;&lt;/i&gt;&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;\(\text{B}\)&lt;/font&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;\(\text{C}\)&lt;/font&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;\(\text{D}\)&lt;/font&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;\(\chi^2\)&lt;/font&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="210" width="200" x="340" y="565" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-61" edge="1" parent="1" source="C058nJHWnjCuK5N1gANL-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="C058nJHWnjCuK5N1gANL-31">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="645" y="810" />
+              <mxPoint y="810" />
+              <mxPoint y="1040" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-27" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;align=left;fontSize=11;" value="&lt;div&gt;&lt;b&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;hdfs://*/job2_chi2/&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Chi-squared score per category-word pair:&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;\(\langle (c, w), {\text{&quot;chi2&quot;} : \chi^2(c, w)} \rangle \)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="150" width="170" x="560" y="595" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-29" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;h3&gt;Job 2 Output&lt;/h3&gt;" vertex="1">
+          <mxGeometry height="40" width="170" x="560" y="508.5" as="geometry" />
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-28" edge="1" parent="1" source="C058nJHWnjCuK5N1gANL-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="670" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-59" edge="1" parent="1" source="C058nJHWnjCuK5N1gANL-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="C058nJHWnjCuK5N1gANL-43">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="1040" />
+              <mxPoint x="250" y="994" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C058nJHWnjCuK5N1gANL-40" edge="1" parent="1" source="C058nJHWnjCuK5N1gANL-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="C058nJHWnjCuK5N1gANL-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="535" y="420" />
+              <mxPoint x="260" y="420" />
+              <mxPoint x="260" y="670" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
