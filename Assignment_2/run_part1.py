@@ -7,8 +7,8 @@ import heapq
 
 from collections import defaultdict
 
-from pyspark import SparkContext, SparkConf
-from pyspark import StorageLevel
+from pyspark import SparkContext, SparkConf,StorageLevel
+
 
 
 # -----------------------------------------------------
@@ -72,10 +72,7 @@ def tokenize(text, stopwords):
     return cleaned
 
 
-# -----------------------------------------------------
-# LOCAL PARTITION AGGREGATION
-# OPTIMIZATION #3
-# -----------------------------------------------------
+
 
 def local_term_category_count(iterator, stopwords):
 
@@ -137,10 +134,7 @@ def main(input_path, output_path, stopword_path):
 
     print("Dataset loaded")
 
-    # -------------------------------------------------
-    # OPTIMIZATION #3
-    # LOCAL PARTITION AGGREGATION
-    # -------------------------------------------------
+
 
     print("Running local partition aggregation...")
 
@@ -181,10 +175,7 @@ def main(input_path, output_path, stopword_path):
 
     print("TOTAL REVIEWS:", N)
 
-    # -------------------------------------------------
-    # OPTIMIZATION #2
-    # PERSIST term_cat_count
-    # -------------------------------------------------
+
 
     print("Persisting term-category counts...")
 
@@ -246,10 +237,7 @@ def main(input_path, output_path, stopword_path):
 
     chi_entries = term_cat_count.map(compute_chi)
 
-    # -------------------------------------------------
-    # OPTIMIZATION #1
-    # REPLACE groupByKey WITH aggregateByKey + HEAP
-    # -------------------------------------------------
+
 
     print("Computing top 75 terms per category...")
 
