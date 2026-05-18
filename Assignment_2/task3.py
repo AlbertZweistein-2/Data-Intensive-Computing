@@ -76,7 +76,7 @@ def main():
             spark.read.json(input_path)
             .select("category", "reviewText")
             .na.fill({"reviewText": ""})
-            .repartition(64)
+            .repartition(64) # Repartition to increase parallelism for better performance on large datasets
             .cache()
         )
 
