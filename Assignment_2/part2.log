@@ -1,0 +1,18 @@
+Part 2
+mode=local
+dataset=dev
+execution_time_seconds=112
+result_file=output_ds.txt
+---
+Part 2
+mode=cluster
+dataset=dev
+execution_time_seconds=164
+result_file=output_ds.txt
+---
+Part 2
+mode=cluster
+dataset=dev
+execution_time_seconds=138
+result_file=output_ds.txt
+---

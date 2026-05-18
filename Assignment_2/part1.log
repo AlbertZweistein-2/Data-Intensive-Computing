@@ -1,0 +1,18 @@
+Part 1
+mode=cluster
+dataset=dev
+execution_time_seconds=78
+result_file=output_rdd.txt
+---
+Part 1
+mode=local
+dataset=dev
+execution_time_seconds=28
+result_file=output_rdd.txt
+---
+Part 1
+mode=cluster
+dataset=dev
+execution_time_seconds=72
+result_file=output_rdd.txt
+---
