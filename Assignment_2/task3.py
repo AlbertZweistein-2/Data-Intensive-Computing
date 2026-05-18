@@ -175,24 +175,24 @@ def main():
         )
 
         # Hyperparameter grid for gridsearch
-        # param_grid = (
-        #     ParamGridBuilder()
-        #     .addGrid(chi_square_selector.numTopFeatures, [2000, 300])
-        #     .addGrid(svm_clf.regParam, [0.01, 0.1, 1.0])
-        #     .addGrid(svm_clf.standardization, [True, False])
-        #     .addGrid(svm_clf.maxIter, [10, 30])
-        #     .build()
-        # )
-
-        # Test Grid
         param_grid = (
             ParamGridBuilder()
-            .addGrid(chi_square_selector.numTopFeatures, [2000])
-            .addGrid(svm_clf.regParam, [0.01])
-            .addGrid(svm_clf.standardization, [True])
-            .addGrid(svm_clf.maxIter, [30])
+            .addGrid(chi_square_selector.numTopFeatures, [2000, 500])
+            .addGrid(svm_clf.regParam, [0.001, 0.01, 0.1])
+            .addGrid(svm_clf.standardization, [True, False])
+            .addGrid(svm_clf.maxIter, [30, 50])
             .build()
         )
+
+        # Test Grid
+        # param_grid = (
+        #     ParamGridBuilder()
+        #     .addGrid(chi_square_selector.numTopFeatures, [2000])
+        #     .addGrid(svm_clf.regParam, [0.01])
+        #     .addGrid(svm_clf.standardization, [True])
+        #     .addGrid(svm_clf.maxIter, [30])
+        #     .build()
+        # )
 
         # Train with a validation split for model selection
         train_validation_split = TrainValidationSplit(

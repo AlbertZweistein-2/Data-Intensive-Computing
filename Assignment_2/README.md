@@ -297,6 +297,7 @@ The main output files are:
 
 | File | Created by | Description |
 | --- | --- | --- |
+| `output.txt` | Assignment 1 | Assignment 1 result with top chi-square terms per category and the merged dictionary line for comparison with Part 1 from Assignment 2. |
 | `output_rdd.txt` | `task1.py` / `part1.sh` | Part 1 result with top chi-square terms per category and the merged dictionary line. |
 | `output_ds.txt` | `task2.py` / `part2.sh` | Part 2 result with the 2000 terms selected by Spark ML chi-square selection. |
 | `output_svm.txt` | `task3.py` / `part3.sh` | Part 3 result with validation grid results, best SVM parameters, and final test F1. |
@@ -314,10 +315,11 @@ The source files are:
 | `part1.sh` | Run helper for Part 1. |
 | `part2.sh` | Run helper for Part 2. |
 | `part3.sh` | Run helper for Part 3. |
+| `results_comparisons.ipynb` | Notebook to evaluate and compare results. |
 
-Additional analysis scripts can be added here later, for example scripts that compare:
+The notebook `results_comparisons.ipynb` is used for analyzing and comparing the generated output files. First, it compares the Assignment 1 output with the Part 1 RDD output by parsing the category lines, extracted terms, and chi-square values. It checks whether the category sets match, whether the selected top terms per category are the same, and whether overlapping terms have equal chi-square scores.
 
-- terms in `output_rdd.txt` against `output_ds.txt`
-- overlap between Assignment 1 `output.txt` and Part 1/Part 2 outputs
-- selected term counts and category-specific differences
+The notebook also compares the final merged dictionaries. For Part 1, this means the merged dictionary built from the top 75 terms per category. For Part 2, this means the 2000 terms selected by Spark ML's TF-IDF and chi-square feature selection pipeline. The notebook computes the term counts, the overlap between both dictionaries, and the terms that occur only in one of the two outputs. These computations are used as supporting material for the report, where the actual observations and interpretation are discussed.
+
+
 - SVM grid-search results across different parameter settings
