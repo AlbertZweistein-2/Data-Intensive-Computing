@@ -30,9 +30,14 @@ fi
 
 if [ "$MODE" = "local" ]; then
     OUTPUT="${OUTPUT:-output_rdd.txt}"
+    RESULT_FILE="$OUTPUT"
     CMD=(spark-submit task1.py "$INPUT" "$OUTPUT" "$STOPWORDS")
 elif [ "$MODE" = "cluster" ]; then
     OUTPUT="${OUTPUT:-hdfs:///user/$USER/output_rdd}"
+    RESULT_FILE="$(basename "$OUTPUT")"
+    if [[ "$RESULT_FILE" != *.txt ]]; then
+        RESULT_FILE="${RESULT_FILE}.txt"
+    fi
     CMD=(spark-submit --master yarn --deploy-mode cluster --files "$STOPWORDS" task1.py "$INPUT" "$OUTPUT" "$(basename "$STOPWORDS")")
 else
     echo "First argument must be 'local' or 'cluster'."
@@ -40,6 +45,30 @@ else
 fi
 
 echo "Running Part 1 with dataset=$DATASET output=$OUTPUT"
+if [ "$MODE" = "cluster" ]; then
+    if hdfs dfs -test -e "$OUTPUT"; then
+        echo "Removing old HDFS output: $OUTPUT"
+        hdfs dfs -rm -r -skipTrash "$OUTPUT"
+    fi
+fi
+
 SECONDS=0
 "${CMD[@]}"
-echo "Part 1 finished in $SECONDS seconds."
+ELAPSED="$SECONDS"
+
+if [ "$MODE" = "cluster" ]; then
+    hdfs dfs -get -f "$OUTPUT/part-00000" "$RESULT_FILE"
+fi
+
+{
+    echo "Part 1"
+    echo "mode=$MODE"
+    echo "dataset=$DATASET"
+    echo "execution_time_seconds=$ELAPSED"
+    echo "result_file=$RESULT_FILE"
+    echo "---"
+} >> part1.log
+
+echo "Part 1 finished in $ELAPSED seconds."
+echo "Result file: $RESULT_FILE"
+echo "Log file: part1.log"
