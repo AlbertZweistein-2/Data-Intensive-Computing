@@ -34,6 +34,7 @@ hdfs:///dic_shared/amazon-reviews/full/reviewscombined.json
   - [Development Set](#development-set-1)
   - [Full Dataset](#full-dataset-1)
 - [Logs and Runtime](#logs-and-runtime)
+- [Part 3 Cluster Configuration](#part-3-cluster-configuration)
 - [Checking HDFS Output Manually](#checking-hdfs-output-manually)
 - [Recommended Testing Order](#recommended-testing-order)
 - [Output and Analysis Files](#output-and-analysis-files)
@@ -236,6 +237,45 @@ result_file
 ```
 
 For Part 3, `part3.log` also includes the SVM/grid-search result content from `output_svm.txt`.
+
+## Part 3 Cluster Configuration
+
+Part 3 is much more expensive than Part 1 and Part 2 because it performs grid search with `OneVsRest(LinearSVC)`. Since `LinearSVC` is binary, `OneVsRest` trains one binary SVM per category for each grid configuration. Therefore, a 24-configuration grid can result in many individual SVM trainings.
+
+To make the YARN cluster run more parallel, `part3.sh` requests:
+
+```bash
+--num-executors 6
+--executor-cores 2
+--executor-memory 4G
+--driver-memory 4G
+--conf spark.sql.shuffle.partitions=64
+--conf spark.default.parallelism=64
+```
+
+This gives 12 executor cores in total. In `task3.py`, the input DataFrame is also repartitioned:
+
+```python
+.repartition(64)
+```
+
+This helps Spark distribute work across the requested executors. These settings only affect execution and parallelism; they do not change the feature extraction, model, or evaluation logic.
+
+To verify that the executor settings were applied, inspect the YARN logs:
+
+```bash
+yarn logs -applicationId <application_id> | grep -- "--executor-id"
+```
+
+Expected signs are several executor IDs and `--cores 2`, for example:
+
+```text
+--executor-id 1 ... --cores 2
+--executor-id 2 ... --cores 2
+...
+--executor-id 6 ... --cores 2
+```
+
 
 ## Checking HDFS Output Manually
 

@@ -38,7 +38,14 @@ elif [ "$MODE" = "cluster" ]; then
     if [[ "$RESULT_FILE" != *.txt ]]; then
         RESULT_FILE="${RESULT_FILE}.txt"
     fi
-    CMD=(spark-submit --master yarn --deploy-mode cluster --files "$STOPWORDS" task3.py "$INPUT" "$OUTPUT" "$(basename "$STOPWORDS")")
+    CMD=(spark-submit --master yarn --deploy-mode cluster \
+        --num-executors 6 \
+        --executor-cores 2 \
+        --executor-memory 4G \
+        --driver-memory 4G \
+        --conf spark.sql.shuffle.partitions=64 \
+        --conf spark.default.parallelism=64 \
+        --files "$STOPWORDS" task3.py "$INPUT" "$OUTPUT" "$(basename "$STOPWORDS")")
 else
     echo "First argument must be 'local' or 'cluster'."
     exit 1

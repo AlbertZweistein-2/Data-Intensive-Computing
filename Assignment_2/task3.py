@@ -76,6 +76,7 @@ def main():
             spark.read.json(input_path)
             .select("category", "reviewText")
             .na.fill({"reviewText": ""})
+            .repartition(64)
             .cache()
         )
 
