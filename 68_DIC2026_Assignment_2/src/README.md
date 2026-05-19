@@ -42,10 +42,10 @@ hdfs:///dic_shared/amazon-reviews/full/reviewscombined.json
 
 ## Folder Structure
 
-Current structure of `Assignment_2`:
+Current structure of `68_DIC2026_Assignment_2`:
 
 ```text
-Assignment_2/
+68_DIC2026_Assignment_2/
   Assignment_2_Instructions.pdf
   report.pdf
   src/
@@ -70,10 +70,10 @@ Assignment_2/
 
 ## Required Files
 
-Run all commands from the `Assignment_2/src` directory:
+Run all commands from the `68_DIC2026_Assignment_2/src` directory:
 
 ```bash
-cd Assignment_2/src
+cd 68_DIC2026_Assignment_2/src
 ```
 
 Make sure the stopword file is available, usually:
