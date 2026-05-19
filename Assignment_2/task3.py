@@ -32,6 +32,9 @@ DEFAULT_INPUT_PATH = "hdfs:///dic_shared/amazon-reviews/full/reviews_devset.json
 DEFAULT_OUTPUT_PATH = "output_svm.txt"
 DEFAULT_STOPWORDS_PATH = "stopwords.txt"
 RANDOM_SEED = 42
+NUM_PARTITIONS = 64
+MODEL_SELECTION_PARALLELISM = 4
+ONE_VS_REST_PARALLELISM = 4
 
 
 def parse_args(args):
@@ -76,9 +79,10 @@ def main():
             spark.read.json(input_path)
             .select("category", "reviewText")
             .na.fill({"reviewText": ""})
-            .repartition(64) # Repartition to increase parallelism for better performance on large datasets
+            .repartition(NUM_PARTITIONS) # Repartition to increase parallelism for better performance on large datasets
             .cache()
         )
+        total_rows = reviews_df.count()
 
         # Split into train/validation and test
         train_valid_df, test_df = reviews_df.randomSplit([0.85, 0.15], seed=RANDOM_SEED)
@@ -151,16 +155,38 @@ def main():
             featuresCol="normalized_features",
             labelCol="label",
             predictionCol="prediction",
+            parallelism=ONE_VS_REST_PARALLELISM,
         )
 
-        # Assemble the ML pipeline stages
-        ml_pipeline = Pipeline(
+        # Fit preprocessing once so grid search does not repeatedly rebuild
+        # labels, vocabulary, and IDF statistics for every SVM configuration.
+        preprocessing_pipeline = Pipeline(
             stages=[
                 text_tokenizer,
                 stopword_filter,
                 label_indexer,
                 tf_vectorizer,
                 idf_transformer,
+            ]
+        )
+        preprocessing_model = preprocessing_pipeline.fit(train_valid_df)
+        train_valid_features = (
+            preprocessing_model.transform(train_valid_df)
+            .select("label", "tfidf_features")
+            .cache()
+        )
+        test_features = (
+            preprocessing_model.transform(test_df)
+            .select("label", "tfidf_features")
+            .cache()
+        )
+        train_valid_rows = train_valid_features.count()
+        test_rows = test_features.count()
+
+        # Assemble the model-selection pipeline stages. This smaller pipeline
+        # still covers the required feature-count and SVM parameter grid.
+        model_pipeline = Pipeline(
+            stages=[
                 chi_square_selector,
                 l2_normalizer,
                 ovr_clf,
@@ -181,7 +207,7 @@ def main():
             .addGrid(chi_square_selector.numTopFeatures, [2000, 500])
             .addGrid(svm_clf.regParam, [0.001, 0.01, 0.1])
             .addGrid(svm_clf.standardization, [True, False])
-            .addGrid(svm_clf.maxIter, [30, 50])
+            .addGrid(svm_clf.maxIter, [10, 30])
             .build()
         )
 
@@ -197,16 +223,16 @@ def main():
 
         # Train with a validation split for model selection
         train_validation_split = TrainValidationSplit(
-            estimator=ml_pipeline,
+            estimator=model_pipeline,
             estimatorParamMaps=param_grid,
             evaluator=f1_evaluator,
             trainRatio=0.8,
             seed=RANDOM_SEED,
-            parallelism=2,
+            parallelism=MODEL_SELECTION_PARALLELISM,
         )
 
         # Fit models across the grid
-        tv_model = train_validation_split.fit(train_valid_df)
+        tv_model = train_validation_split.fit(train_valid_features)
 
         # Find the best validation score
         best_index = max(
@@ -216,14 +242,17 @@ def main():
         best_params = param_grid[best_index]
 
         # Evaluate the best model on the test split
-        test_predictions = tv_model.bestModel.transform(test_df)
+        test_predictions = tv_model.bestModel.transform(test_features)
         test_f1 = f1_evaluator.evaluate(test_predictions)
 
         result_lines = [
             "--- SVM classification results ---",
             f"input_path={input_path}",
-            f"train_validation_rows={train_valid_df.count()}",
-            f"test_rows={test_df.count()}",
+            f"total_rows={total_rows}",
+            f"train_validation_rows={train_valid_rows}",
+            f"test_rows={test_rows}",
+            f"modelSelectionParallelism={MODEL_SELECTION_PARALLELISM}",
+            f"oneVsRestParallelism={ONE_VS_REST_PARALLELISM}",
             "",
             "Validation grid results:",
             "numTopFeatures,\tregParam,\tstandardization,\tmaxIter,\tvalidationF1",
