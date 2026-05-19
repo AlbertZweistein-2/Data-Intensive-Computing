@@ -21,6 +21,7 @@ hdfs:///dic_shared/amazon-reviews/full/reviewscombined.json
 
 ## Table of Contents
 
+- [Folder Structure](#folder-structure)
 - [Required Files](#required-files)
 - [Direct Python Usage](#direct-python-usage)
   - [Part 1](#part-1)
@@ -38,6 +39,32 @@ hdfs:///dic_shared/amazon-reviews/full/reviewscombined.json
 - [Checking HDFS Output Manually](#checking-hdfs-output-manually)
 - [Recommended Testing Order](#recommended-testing-order)
 - [Output and Analysis Files](#output-and-analysis-files)
+
+## Folder Structure
+
+Current structure of `Assignment_2`:
+
+```text
+Assignment_2/
+  Assignment_2_Instructions.pdf
+  monitor_owlqn_progress.sh
+  output.txt
+  output_ds.txt
+  output_rdd.txt
+  output_svm.txt
+  part1.log
+  part1.sh
+  part2.log
+  part2.sh
+  part3.log
+  part3.sh
+  README.md
+  results_comparisons.ipynb
+  stopwords.txt
+  task1.py
+  task2.py
+  task3.py
+```
 
 ## Required Files
 
@@ -349,17 +376,26 @@ The source files are:
 
 | File | Purpose |
 | --- | --- |
+| `README.md` | Usage and execution guide for all Assignment 2 tasks. |
+| `Assignment_2_Instructions.pdf` | Original assignment specification and requirements. |
 | `task1.py` | RDD implementation for Part 1. |
 | `task2.py` | DataFrame/Spark ML feature extraction and selection for Part 2. |
 | `task3.py` | Spark ML classification experiment for Part 3. |
 | `part1.sh` | Run helper for Part 1. |
 | `part2.sh` | Run helper for Part 2. |
 | `part3.sh` | Run helper for Part 3. |
+| `monitor_owlqn_progress.sh` | Helper script to monitor optimization progress (OWL-QN related Spark logs). |
+| `stopwords.txt` | Stopword list used by all task scripts unless overridden via argument. |
 | `results_comparisons.ipynb` | Notebook to evaluate and compare results. |
+| `part1.log` | Runtime log file generated/appended by `part1.sh`. |
+| `part2.log` | Runtime log file generated/appended by `part2.sh`. |
+| `part3.log` | Runtime log file generated/appended by `part3.sh`. |
+| `output_rdd.txt` | Default result file for Part 1 (`task1.py`). |
+| `output_ds.txt` | Default result file for Part 2 (`task2.py`). |
+| `output_svm.txt` | Default result file for Part 3 (`task3.py`). |
+| `output.txt` | Reference output from Assignment 1 used for cross-assignment comparison. |
+| `__pycache__/` | Auto-generated Python bytecode cache directory (not hand-maintained source). |
 
 The notebook `results_comparisons.ipynb` is used for analyzing and comparing the generated output files. First, it compares the Assignment 1 output with the Part 1 RDD output by parsing the category lines, extracted terms, and chi-square values. It checks whether the category sets match, whether the selected top terms per category are the same, and whether overlapping terms have equal chi-square scores.
 
 The notebook also compares the final merged dictionaries. For Part 1, this means the merged dictionary built from the top 75 terms per category. For Part 2, this means the 2000 terms selected by Spark ML's TF-IDF and chi-square feature selection pipeline. The notebook computes the term counts, the overlap between both dictionaries, and the terms that occur only in one of the two outputs. These computations are used as supporting material for the report, where the actual observations and interpretation are discussed.
-
-
-- SVM grid-search results across different parameter settings
