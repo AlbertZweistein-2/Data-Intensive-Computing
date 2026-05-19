@@ -1,6 +1,6 @@
 # Assignment 2 Usage
 
-This folder contains the implementations for all three assignment parts:
+This `src` folder contains the implementations for all three assignment parts:
 
 - `task1.py`: Part 1, RDD-based chi-square term selection.
 - `task2.py`: Part 2, Spark ML pipeline with TF-IDF and chi-square feature selection.
@@ -47,31 +47,33 @@ Current structure of `Assignment_2`:
 ```text
 Assignment_2/
   Assignment_2_Instructions.pdf
-  monitor_owlqn_progress.sh
-  output.txt
-  output_ds.txt
-  output_rdd.txt
-  output_svm.txt
-  part1.log
-  part1.sh
-  part2.log
-  part2.sh
-  part3.log
-  part3.sh
-  README.md
-  results_comparisons.ipynb
-  stopwords.txt
-  task1.py
-  task2.py
-  task3.py
+  report.pdf
+  src/
+    monitor_owlqn_progress.sh
+    output.txt
+    output_ds.txt
+    output_rdd.txt
+    output_svm.txt
+    part1.log
+    part1.sh
+    part2.log
+    part2.sh
+    part3.log
+    part3.sh
+    README.md
+    results_comparisons.ipynb
+    stopwords.txt
+    task1.py
+    task2.py
+    task3.py
 ```
 
 ## Required Files
 
-Run all commands from the `Assignment_2` directory:
+Run all commands from the `Assignment_2/src` directory:
 
 ```bash
-cd Assignment_2
+cd Assignment_2/src
 ```
 
 Make sure the stopword file is available, usually:
@@ -377,7 +379,7 @@ The source files are:
 | File | Purpose |
 | --- | --- |
 | `README.md` | Usage and execution guide for all Assignment 2 tasks. |
-| `Assignment_2_Instructions.pdf` | Original assignment specification and requirements. |
+| `../Assignment_2_Instructions.pdf` | Original assignment specification and requirements. |
 | `task1.py` | RDD implementation for Part 1. |
 | `task2.py` | DataFrame/Spark ML feature extraction and selection for Part 2. |
 | `task3.py` | Spark ML classification experiment for Part 3. |
@@ -394,7 +396,6 @@ The source files are:
 | `output_ds.txt` | Default result file for Part 2 (`task2.py`). |
 | `output_svm.txt` | Default result file for Part 3 (`task3.py`). |
 | `output.txt` | Reference output from Assignment 1 used for cross-assignment comparison. |
-| `__pycache__/` | Auto-generated Python bytecode cache directory (not hand-maintained source). |
 
 The notebook `results_comparisons.ipynb` is used for analyzing and comparing the generated output files. First, it compares the Assignment 1 output with the Part 1 RDD output by parsing the category lines, extracted terms, and chi-square values. It checks whether the category sets match, whether the selected top terms per category are the same, and whether overlapping terms have equal chi-square scores.
 
