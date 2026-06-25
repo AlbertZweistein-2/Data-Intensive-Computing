@@ -1,0 +1,11 @@
+boto3
+requests
+pytest
+awscli
+ministack
+nltk
+profanityfilter
+mypy-boto3-s3
+mypy-boto3-ssm
+mypy-boto3-lambda
+mypy-boto3-dynamodb

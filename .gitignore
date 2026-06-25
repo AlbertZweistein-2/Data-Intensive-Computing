@@ -1,0 +1,38 @@
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# Local editor and OS noise
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Assignment 3 generated Lambda build artifacts
+68_DIC2026_Assignment_3/src/lambdas/**/package/
+68_DIC2026_Assignment_3/src/lambdas/**/lambda.zip
+
+# Generated local run files
+68_DIC2026_Assignment_3/src/raw-notification.json
+68_DIC2026_Assignment_3/src/preprocessed-notification.json
+68_DIC2026_Assignment_3/src/profanity-notification.json
+68_DIC2026_Assignment_3/src/devset_results.json
+
+# Local logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Archives are usually generated or downloaded locally.
+# PDFs are intentionally not ignored.
+*.zip
+*.tar
+*.tar.gz
+*.tgz

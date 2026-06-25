@@ -1,0 +1,12 @@
+{
+  "reviewerID": "A_POSITIVE_USER",
+  "asin": "TEST_POSITIVE",
+  "reviewerName": "Positive Tester",
+  "helpful": [1, 1],
+  "reviewText": "This product is excellent and very useful. I loved it.",
+  "overall": 5.0,
+  "summary": "Great product",
+  "unixReviewTime": 1700000000,
+  "reviewTime": "01 1, 2026",
+  "category": "Test"
+}

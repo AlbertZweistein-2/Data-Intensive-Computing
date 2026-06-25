@@ -1,0 +1,12 @@
+{
+  "reviewerID": "A_IMPOLITE_USER",
+  "asin": "TEST_NEGATIVE",
+  "reviewerName": "Impolite Tester",
+  "helpful": [0, 0],
+  "reviewText": "This product is awful and stupid shit.",
+  "overall": 1.0,
+  "summary": "Worst product",
+  "unixReviewTime": 1700000000,
+  "reviewTime": "01 1, 2026",
+  "category": "Test"
+}
