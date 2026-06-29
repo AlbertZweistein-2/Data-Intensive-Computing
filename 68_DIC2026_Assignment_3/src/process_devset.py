@@ -170,6 +170,8 @@ def main() -> None:
     parser.add_argument("--timeout", type=int, default=900, help="Maximum wait time in seconds")
     parser.add_argument("--upload-workers", type=int, default=4, help="Parallel S3 upload workers")
     parser.add_argument("--upload-retries", type=int, default=5, help="Retries per S3 upload")
+    parser.add_argument("--max-backlog", type=int, default=2000, help="Maximum uploaded-but-not-analyzed reviews before throttling")
+    parser.add_argument("--throttle-every", type=int, default=500, help="Check pipeline backlog after this many uploads")
     args = parser.parse_args()
 
     raw_bucket = get_parameter("/assignment3/buckets/raw")
@@ -214,6 +216,23 @@ def main() -> None:
     print(f"Uploading {len(reviews)} reviews...")
     indexed_reviews = list(enumerate(reviews, start=1))
     completed_uploads = 0
+
+    def wait_for_backlog() -> None:
+        if args.max_backlog <= 0:
+            return
+
+        while True:
+            analyzed_count = count_object_keys(analyzed_bucket, prefix)
+            backlog = completed_uploads - analyzed_count
+            if backlog <= args.max_backlog:
+                return
+
+            print(
+                f"Throttling uploads: {completed_uploads} uploaded, "
+                f"{analyzed_count} analyzed, backlog {backlog}/{args.max_backlog}"
+            )
+            time.sleep(5)
+
     with ThreadPoolExecutor(max_workers=max(1, args.upload_workers)) as executor:
         pending = set()
         review_iterator = iter(indexed_reviews)
@@ -232,6 +251,8 @@ def main() -> None:
                 completed_uploads += 1
                 if completed_uploads % 100 == 0 or completed_uploads == len(reviews):
                     print(f"Uploaded {completed_uploads}/{len(reviews)}")
+                if completed_uploads % max(1, args.throttle_every) == 0:
+                    wait_for_backlog()
                 break
 
     print("Waiting for the Lambda chain to finish...")
