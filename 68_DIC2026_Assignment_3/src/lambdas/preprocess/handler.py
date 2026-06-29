@@ -68,7 +68,7 @@ def iter_s3_records(event):
 
 
 def simple_lemma(token: str) -> str:
-    """Use NLTK lemmatization when available; otherwise use a stable fallback."""
+    """Normalize one token with optional NLTK support or a stable fallback."""
     if LEMMATIZER:
         try:
             return LEMMATIZER.lemmatize(token)
@@ -101,7 +101,7 @@ def get_stopwords() -> frozenset[str]:
 
 
 def preprocess_text(text: str) -> tuple[list[str], str]:
-    """Tokenize, case-fold, remove stopwords, and apply NLTK-based normalization."""
+    """Tokenize, case-fold, remove stopwords, and normalize tokens."""
     text = text.lower()
     if TOKENIZER:
         tokens = TOKENIZER.tokenize(text)
