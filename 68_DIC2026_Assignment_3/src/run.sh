@@ -7,6 +7,7 @@ export AWS_DEFAULT_REGION=us-east-1
 export MINISTACK_ENDPOINT=http://localhost:4566
 
 AWS="aws --endpoint-url=${MINISTACK_ENDPOINT}"
+LAMBDA_TIMEOUT=60
 
 RAW_BUCKET=assignment3-raw-reviews
 PREPROCESSED_BUCKET=assignment3-preprocessed-reviews
@@ -58,14 +59,15 @@ delete_lambda_if_exists sentiment_analysis
   rm -rf package lambda.zip
   mkdir package
   cp handler.py package/
-  pip install -r requirements.txt -t package
+  pip install --no-compile -r requirements.txt -t package
+  find package -type d -name "__pycache__" -prune -exec rm -rf {} +
   cd package
   zip -r ../lambda.zip .
 )
 ${AWS} lambda create-function \
   --function-name preprocess \
   --runtime python3.11 \
-  --timeout 20 \
+  --timeout "${LAMBDA_TIMEOUT}" \
   --zip-file fileb://lambdas/preprocess/lambda.zip \
   --handler handler.handler \
   --role arn:aws:iam::000000000000:role/lambda-role \
@@ -76,14 +78,15 @@ ${AWS} lambda create-function \
   rm -rf package lambda.zip
   mkdir package
   cp handler.py package/
-  pip install -r requirements.txt -t package
+  pip install --no-compile -r requirements.txt -t package
+  find package -type d -name "__pycache__" -prune -exec rm -rf {} +
   cd package
   zip -r ../lambda.zip .
 )
 ${AWS} lambda create-function \
   --function-name profanity_check \
   --runtime python3.11 \
-  --timeout 20 \
+  --timeout "${LAMBDA_TIMEOUT}" \
   --zip-file fileb://lambdas/profanity_check/lambda.zip \
   --handler handler.handler \
   --role arn:aws:iam::000000000000:role/lambda-role \
@@ -93,7 +96,7 @@ ${AWS} lambda create-function \
 ${AWS} lambda create-function \
   --function-name sentiment_analysis \
   --runtime python3.11 \
-  --timeout 20 \
+  --timeout "${LAMBDA_TIMEOUT}" \
   --zip-file fileb://lambdas/sentiment_analysis/lambda.zip \
   --handler handler.handler \
   --role arn:aws:iam::000000000000:role/lambda-role \

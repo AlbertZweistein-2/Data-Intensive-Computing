@@ -148,7 +148,6 @@ def preprocess_review(review: dict) -> dict:
         "reviewText": review_text,
         "tokens": tokens,
         "cleanText": clean_text,
-        "originalReview": review,
     }
 
 
