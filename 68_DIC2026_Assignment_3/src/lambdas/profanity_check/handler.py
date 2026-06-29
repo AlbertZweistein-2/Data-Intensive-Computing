@@ -3,6 +3,7 @@ import os
 import re
 import typing
 from decimal import Decimal
+from functools import lru_cache
 from urllib.parse import unquote_plus
 
 import boto3
@@ -42,12 +43,19 @@ EXTRA_BAD_WORDS = {
     "stupid",
 }
 PROFANITY_FILTER = None
+WORD_RE = re.compile(r"[a-zA-Z]+")
 
 
+@lru_cache(maxsize=None)
 def get_parameter(name: str) -> str:
     """Read a bucket or table name from SSM Parameter Store."""
     parameter = ssm.get_parameter(Name=name)
     return parameter["Parameter"]["Value"]
+
+
+@lru_cache(maxsize=1)
+def get_users_table():
+    return dynamodb.Table(get_parameter("/assignment3/tables/users"))
 
 
 def iter_s3_records(event):
@@ -75,6 +83,10 @@ def contains_profanity(text: str) -> bool:
     """Return True when profanityfilter or the fallback dictionary finds profanity."""
     global PROFANITY_FILTER
 
+    tokens = WORD_RE.findall(text.lower())
+    if any(token in EXTRA_BAD_WORDS for token in tokens):
+        return True
+
     if ProfanityFilter:
         try:
             if PROFANITY_FILTER is None:
@@ -85,13 +97,12 @@ def contains_profanity(text: str) -> bool:
         except Exception:
             pass
 
-    tokens = re.findall(r"[a-zA-Z]+", text.lower())
-    return any(token in EXTRA_BAD_WORDS for token in tokens)
+    return False
 
 
 def update_user_status(reviewer_id: str, is_impolite: bool) -> dict:
     """Update the user-level impolite review counter and ban flag."""
-    users_table = dynamodb.Table(get_parameter("/assignment3/tables/users"))
+    users_table = get_users_table()
 
     if not reviewer_id:
         reviewer_id = "UNKNOWN"

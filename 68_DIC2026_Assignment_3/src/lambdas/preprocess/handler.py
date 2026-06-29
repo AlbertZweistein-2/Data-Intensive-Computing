@@ -2,6 +2,7 @@ import json
 import os
 import re
 import typing
+from functools import lru_cache
 from urllib.parse import unquote_plus
 
 import boto3
@@ -38,8 +39,10 @@ FALLBACK_STOPWORDS = {
 TOKENIZER = RegexpTokenizer(r"[A-Za-z]+") if RegexpTokenizer else None
 STEMMER = SnowballStemmer("english") if SnowballStemmer else None
 LEMMATIZER = WordNetLemmatizer() if WordNetLemmatizer else None
+FALLBACK_TOKEN_SPLITTER = re.compile(r"[\s\d()\[\]{}.!?,;:+=\-_'\"`~#@&*%€$§\\/]+")
 
 
+@lru_cache(maxsize=None)
 def get_parameter(name: str) -> str:
     """Read a configuration value from SSM Parameter Store."""
     parameter = ssm.get_parameter(Name=name)
@@ -86,14 +89,15 @@ def simple_lemma(token: str) -> str:
     return token
 
 
-def get_stopwords() -> set[str]:
+@lru_cache(maxsize=1)
+def get_stopwords() -> frozenset[str]:
     """Use NLTK stopwords when available; otherwise use the local fallback list."""
     if stopwords:
         try:
-            return set(stopwords.words("english"))
+            return frozenset(stopwords.words("english"))
         except LookupError:
             pass
-    return FALLBACK_STOPWORDS
+    return frozenset(FALLBACK_STOPWORDS)
 
 
 def preprocess_text(text: str) -> tuple[list[str], str]:
@@ -102,7 +106,7 @@ def preprocess_text(text: str) -> tuple[list[str], str]:
     if TOKENIZER:
         tokens = TOKENIZER.tokenize(text)
     else:
-        tokens = re.split(r"[\s\d()\[\]{}.!?,;:+=\-_'\"`~#@&*%€$§\\/]+", text)
+        tokens = FALLBACK_TOKEN_SPLITTER.split(text)
 
     stopword_set = get_stopwords()
     cleaned_tokens = []

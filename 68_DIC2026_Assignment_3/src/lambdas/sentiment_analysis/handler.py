@@ -3,6 +3,7 @@ import json
 import os
 import typing
 from decimal import Decimal
+from functools import lru_cache
 from urllib.parse import unquote_plus
 
 import boto3
@@ -36,10 +37,16 @@ NEGATIVE_WORDS = {
 }
 
 
+@lru_cache(maxsize=None)
 def get_parameter(name: str) -> str:
     """Read a bucket or table name from SSM Parameter Store."""
     parameter = ssm.get_parameter(Name=name)
     return parameter["Parameter"]["Value"]
+
+
+@lru_cache(maxsize=1)
+def get_results_table():
+    return dynamodb.Table(get_parameter("/assignment3/tables/results"))
 
 
 def iter_s3_records(event):
@@ -109,7 +116,7 @@ def make_review_id(key: str, review: dict) -> str:
 
 def store_result(key: str, review: dict, sentiment: str) -> None:
     """Persist compact result metadata in the results DynamoDB table."""
-    results_table = dynamodb.Table(get_parameter("/assignment3/tables/results"))
+    results_table = get_results_table()
     item = {
         "reviewID": make_review_id(key, review),
         "sourceKey": key,
